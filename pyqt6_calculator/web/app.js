@@ -103,8 +103,17 @@ function parseSingleMeasurement(text) {
 
 function solveEquation() {
     try {
-        const input = document.getElementById('algebraInput').value.trim();
+        let input = document.getElementById('algebraInput').value.trim();
         
+        // Preprocess the input to handle common formatting issues
+        input = input
+            // Add space between numbers and variables (2x -> 2*x)
+            .replace(/(\d)([a-zA-Z])/g, '$1*$2')
+            // Handle negative signs
+            .replace(/([+\-*/])\s*-/g, '$1 -')
+            // Clean up spaces around operators
+            .replace(/\s*([+\-*/=])\s*/g, ' $1 ');
+
         // Handle equation format
         if (!input.includes('=')) {
             throw new Error('Equation must contain equals sign (=)');
@@ -116,8 +125,17 @@ function solveEquation() {
         // Create equation in the form: expression = 0
         const equation = `${leftSide} - (${rightSide})`;
         
-        // Solve for x
-        const solution = math.solve(equation, 'x');
+        console.log('Processing equation:', equation); // Debug log
+        
+        // Try to find x value(s)
+        let solution;
+        try {
+            solution = math.evaluate(`solve(${equation}, x)`);
+        } catch (e) {
+            // If direct solve fails, try simplifying first
+            const simplified = math.simplify(equation);
+            solution = math.evaluate(`solve(${simplified}, x)`);
+        }
         
         // Format and display result
         document.getElementById('algebraResult').textContent = 
