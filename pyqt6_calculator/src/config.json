@@ -1,0 +1,14 @@
+{
+    "calculators": [
+        {
+            "name": "Feet & Inches",
+            "module": "feet_inches_calculator",
+            "class": "FeetInchesCalculator"
+        },
+        {
+            "name": "Algebra",
+            "module": "algebra",
+            "class": "AlgebraCalculator"
+        }
+    ]
+}

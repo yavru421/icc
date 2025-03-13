@@ -1,0 +1,39 @@
+#:kivy 2.0.0
+
+<CalculatorTabs>:
+    do_default_tab: False
+    background_color: (0.15, 0.15, 0.15, 1)
+    tab_width: 150
+    tab_height: 40
+    padding: 5
+    spacing: 5
+
+<TabbedPanelItem>:
+    background_color: (0.2, 0.2, 0.2, 1)
+    color: (0.9, 0.9, 0.9, 1)
+    font_size: '16sp'
+
+<Button>:
+    background_color: (0.2, 0.6, 1, 1)
+    background_normal: ''
+    size_hint_y: None
+    height: 40
+    color: (1, 1, 1, 1)
+    font_size: '16sp'
+
+<TextInput>:
+    background_color: (0.25, 0.25, 0.25, 1)
+    foreground_color: (1, 1, 1, 1)
+    cursor_color: (0.2, 0.6, 1, 1)
+    size_hint_y: None
+    height: 40
+    padding: [5, 5]
+    font_size: '16sp'
+
+<Label>:
+    color: (0.9, 0.9, 0.9, 1)
+    size_hint_y: None
+    height: 30
+    padding: [5, 5]
+    text_size: self.width, None
+    halign: 'left'

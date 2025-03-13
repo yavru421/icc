@@ -1,0 +1,8 @@
+kivy==2.3.0
+kivy_deps.sdl2==0.8.0
+kivy_deps.glew==0.3.1
+kivy_deps.angle==0.4.0
+kivy_deps.gstreamer==0.3.3
+sympy==1.12
+pyinstaller==6.12.0
+pillow==10.2.0

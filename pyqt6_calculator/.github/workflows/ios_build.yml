@@ -1,0 +1,16 @@
+name: iOS Build
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Package for Kivy iOS Builder
+        run: |
+          zip -r app.zip . -x "*.git*"
+      - name: Upload to Kivy iOS Builder
+        uses: actions/upload-artifact@v2
+        with:
+          name: ios-build
+          path: app.zip

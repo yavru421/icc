@@ -1,0 +1,92 @@
+#:kivy 2.0.0
+
+<CalculatorLayout>:
+    canvas.before:
+        Color:
+            rgba: 0.15, 0.15, 0.15, 0.95
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Rectangle:
+            source: 'assets/background.png'
+            pos: self.pos
+            size: self.size
+
+<ScrollView>:
+    bar_width: 10
+    bar_color: 0.2, 0.6, 1, 0.7
+    bar_inactive_color: 0.2, 0.6, 1, 0.4
+    effect_cls: "ScrollEffect"
+
+<Button>:
+    background_color: (0.2, 0.6, 1, 1)
+    background_normal: ''
+    size_hint_y: None
+    height: 60 if root.width < 800 else 40  # Bigger on mobile
+    color: 1, 1, 1, 1
+    font_size: '18sp'
+
+<TextInput>:
+    background_color: 0.25, 0.25, 0.25, 1
+    foreground_color: 1, 1, 1, 1
+    cursor_color: 0.2, 0.6, 1, 1
+    size_hint_y: None
+    height: 40
+    padding: 10, 10
+    font_size: '16sp'
+    # Add iOS keyboard settings
+    keyboard_mode: 'managed'
+    multiline: False
+    write_tab: False
+
+<Label>:
+    color: 0.9, 0.9, 0.9, 1
+    size_hint_y: None
+    height: 30
+    padding: 5, 5
+    text_size: self.width, None
+    halign: 'left'
+
+<BrandingLabel@Label>:
+    color: 1, 1, 1, 1
+    font_size: '24sp'
+    bold: True
+    size_hint_y: None
+    height: 80  # Increased height
+    padding: [0, 20]  # Add vertical padding
+    canvas.before:
+        Color:
+            rgba: 0.2, 0.2, 0.2, 0.8
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Image>:
+    allow_stretch: True
+    keep_ratio: True
+    padding: 20, 20
+    size_hint_max_x: 0.8  # Prevent logo from getting too wide
+
+<DividerLabel@Label>:
+    canvas.before:
+        Color:
+            rgba: 0.2, 0.6, 1, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    bold: True
+    color: 0.2, 0.6, 1, 1
+    height: 50  # Increased height
+    font_size: '18sp'
+    padding: [10, 25]  # Increased padding
+    margin: [0, 30]  # Increased margin
+    valign: 'middle'
+
+<CopyrightLabel@Label>:
+    color: 0.7, 0.7, 0.7, 1
+    font_size: '14sp'
+    size_hint_y: None
+    height: 30
+    halign: 'center'
+    padding: 5, 5
+    text_size: self.width, None

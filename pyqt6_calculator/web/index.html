@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICC Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2196F3">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.4/math.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <img src="./assets/logo.png" alt="ICC Logo" class="logo">
+        <h1>ICC Calculator 6.1.0</h1>
+        
+        <div class="calculator-section">
+            <h2>Feet & Inches Calculator</h2>
+            <input type="text" id="feetInchesInput" placeholder="e.g., 15 ft 6 1/2 in or 5'6 1/2\"">
+            <button onclick="calculateFeetInches()">Calculate</button>
+            <div id="feetInchesResult" class="result"></div>
+        </div>
+
+        <div class="calculator-section">
+            <h2>Algebra Calculator</h2>
+            <input type="text" id="algebraInput" placeholder="e.g., 2x + 3 = 10">
+            <button onclick="solveEquation()">Solve</button>
+            <div id="algebraResult" class="result"></div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
+    </script>
+</body>
+</html>
