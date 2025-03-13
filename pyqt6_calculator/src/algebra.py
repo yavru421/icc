@@ -56,6 +56,12 @@ class AlgebraCalculator(BoxLayout):
 
     def solve_equation(self, instance):
         equation_text = self.input_field.text
+        
+        # Basic input validation (example)
+        if not re.match(r"^[\d\s\+\-\*\/\(\)=x\.]+$", equation_text):
+            self.result_label.text = "Error: Invalid characters in equation."
+            return
+        
         try:
             equation_text = self.preprocess_equation(equation_text)
             lhs, rhs = equation_text.split("=")

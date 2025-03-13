@@ -17,22 +17,46 @@ function calculateFeetInches() {
 
 function parseFeetInches(input) {
     // Remove quotes and normalize format
-    input = input.replace(/['"]/g, '').toLowerCase();
-    const regex = /(\d+)\s*(?:ft|feet|'|\s)\s*(\d+\s*(?:\d+\/\d+|\d*))?\s*(?:in|inch|")?/;
+    input = input.replace(/['"]/g, '').toLowerCase().trim();
+    
+    // More robust regex
+    const regex = /(\d+)\s*(?:ft|feet|'|\s)?\s*(\d+(?:\s*\d+\/\d+)?)?\s*(?:in|inch|")?/;
     const match = input.match(regex);
     
-    if (!match) throw new Error('Invalid format');
+    if (!match) {
+        showError('feetInchesResult', 'Invalid format. Please use format like "5ft 6 1/2in" or "5\' 6 1/2""');
+        throw new Error('Invalid format');
+    }
     
-    const feet = parseInt(match[1]);
-    const inches = match[2] ? math.evaluate(match[2]) : 0;
+    let feet = parseInt(match[1]);
+    let inchesStr = match[2];
+    let inches = 0;
+
+    if (inchesStr) {
+        try {
+            inches = math.evaluate(inchesStr);
+        } catch (e) {
+            showError('feetInchesResult', 'Invalid inches format.  Use a number or fraction.');
+            throw new Error('Invalid inches format');
+        }
+    }
     
+    if (isNaN(feet) || isNaN(inches)) {
+        showError('feetInchesResult', 'Could not parse feet or inches.');
+        throw new Error('Could not parse feet or inches.');
+    }
+
     return `${feet}' ${inches.toFixed(2)}"`;
 }
 
 function solveEquation() {
+    const input = document.getElementById('algebraInput').value;
+
+    // Sanitize input (very basic example)
+    const sanitizedInput = input.replace(/[^0-9x+\-*/=().\s]/g, ''); // Allow only numbers, x, operators, parentheses, equals, and spaces
+
     try {
-        const input = document.getElementById('algebraInput').value;
-        const result = math.evaluate(input);
+        const result = math.evaluate(sanitizedInput);
         document.getElementById('algebraResult').textContent = result;
     } catch (error) {
         showError('algebraResult', 'Invalid equation. Please check your input.');
