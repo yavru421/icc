@@ -1,44 +1,41 @@
-function parseFeetInches(expression) {
-    expression = expression.replace(/'/g, " ft ");
-    expression = expression.replace(/"/g, " in");
+// Initialize mathjs parser
+const parser = math.parser();
 
-    const regex = /(\d+)\s*ft\s*(\d+)?\s*(\d+\/\d+)?\s*in?/g;
-    return expression.replace(regex, (match, feet, inches = "0", fraction = "0") => {
-        feet = parseFloat(feet);
-        inches = parseFloat(inches);
-        
-        if (fraction) {
-            const [num, denom] = fraction.split('/');
-            inches += parseFloat(num) / parseFloat(denom);
-        }
-        
-        return `(${feet * 12 + inches})`;
-    });
+function showError(elementId, message) {
+    document.getElementById(elementId).innerHTML = `<span class="error">${message}</span>`;
 }
 
 function calculateFeetInches() {
-    const input = document.getElementById('feetInchesInput').value;
     try {
-        const parsed = parseFeetInches(input);
-        const result = eval(parsed);
-        const feet = Math.floor(result / 12);
-        const inches = (result % 12).toFixed(3);
-        document.getElementById('feetInchesResult').textContent = 
-            `${result.toFixed(3)} inches (${feet} ft ${inches} in)`;
-    } catch (e) {
-        document.getElementById('feetInchesResult').textContent = `Error: ${e.message}`;
+        const input = document.getElementById('feetInchesInput').value;
+        const result = parseFeetInches(input);
+        document.getElementById('feetInchesResult').textContent = result;
+    } catch (error) {
+        showError('feetInchesResult', 'Invalid input format. Please use format like "5ft 6 1/2in"');
     }
 }
 
+function parseFeetInches(input) {
+    // Remove quotes and normalize format
+    input = input.replace(/['"]/g, '').toLowerCase();
+    const regex = /(\d+)\s*(?:ft|feet|'|\s)\s*(\d+\s*(?:\d+\/\d+|\d*))?\s*(?:in|inch|")?/;
+    const match = input.match(regex);
+    
+    if (!match) throw new Error('Invalid format');
+    
+    const feet = parseInt(match[1]);
+    const inches = match[2] ? math.evaluate(match[2]) : 0;
+    
+    return `${feet}' ${inches.toFixed(2)}"`;
+}
+
 function solveEquation() {
-    const input = document.getElementById('algebraInput').value;
     try {
-        // Use math.js to properly solve equations
-        const solution = math.solve(input, 'x');
-        document.getElementById('algebraResult').textContent = 
-            `Solution: x = ${solution}`;
-    } catch (e) {
-        document.getElementById('algebraResult').textContent = `Error: Invalid equation`;
+        const input = document.getElementById('algebraInput').value;
+        const result = math.evaluate(input);
+        document.getElementById('algebraResult').textContent = result;
+    } catch (error) {
+        showError('algebraResult', 'Invalid equation. Please check your input.');
     }
 }
 

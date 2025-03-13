@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICC Calculator</title>
+    <base href="/icc/">
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2196F3">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.4/math.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.4/math.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="app-container">
@@ -31,8 +32,24 @@
     <script src="app.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js');
+            navigator.serviceWorker.register('./service-worker.js', {
+                scope: '/icc/'
+            }).then(function(registration) {
+                console.log('Service Worker registered with scope:', registration.scope);
+            }).catch(function(error) {
+                console.error('Service Worker registration failed:', error);
+            });
         }
+
+        // Add error event listener for math.js
+        window.addEventListener('error', function(e) {
+            if (e.message.includes('math is not defined')) {
+                console.error('MathJS failed to load');
+                document.querySelectorAll('.result').forEach(el => {
+                    el.innerHTML = '<span class="error">Calculator temporarily unavailable</span>';
+                });
+            }
+        });
     </script>
 </body>
 </html>
